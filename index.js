@@ -1,18 +1,17 @@
 const express = require('express')
 const app = express()
 const registerRouter = require('./routes/Register')
+const loginRouter = require('./routes/login')
 const postRouter = require('./routes/Posts')
 const userProfileRouter = require('./routes/UserProfiles')
-
+const authenticateUser = require('./middlewares/authenticateUser')
 require('dotenv').config()
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
-app.get("/", (req, res)=>{
-    res.send("hello from express again")
-})
-
 app.use('/register', registerRouter)
+app.use('/login', loginRouter)
+app.use(authenticateUser)
 app.use('/posts', postRouter)
 app.use('/userprofiles', userProfileRouter)
 
