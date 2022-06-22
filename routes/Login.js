@@ -6,16 +6,22 @@ const bcrypt = require('bcrypt')
 const authenticateUser = require('../middlewares/authenticateUser')
 
 router.post('/',async(req, res)=>{
-    try {
-        const email = req.body.email
+    try { 
+        const email = req.body.email.replace(/ /g,"")
         const password = req.body.password
+
+        if(!email && !password)return res.send('missing credentials')
+        const sanitize = /[!#$%`~*{};?/:+=<>(|)]/
+       if(sanitize.test(email)) return res.send('invalid email')
+
         const user =  await User.findOne({
             where:{email: req.body.email},
-            attributes:['id','firstName','lastName','password']})
-        if(!user) throw new Error("invalid email")
+            attributes:['id','password']})
+
+        if(!user) return res.send("invalid email")
         const validPassword = await bcrypt.compare(password,user.password)    
         if(!validPassword) throw new Error("invalid password")
-        const token = jwt.sign({userId: user.id,email},"secret",{algorithm:'HS256', expiresIn: '50000'})
+        const token = jwt.sign({userId: user.id,email},'secret',{algorithm:'HS256', expiresIn: '50000'})
         //res.cookie('luppi2',token,{maxAge: 4000, httpOnly: true})
         
         res.send(token)

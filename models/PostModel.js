@@ -1,5 +1,4 @@
-const { Sequelize, DataTypes } = require("sequelize");
-const  conn = new Sequelize('luppi_app','root','',{host: 'localhost', dialect: 'mysql'})
+const {DataTypes,conn} = require('../database/database.js')
 
 const Post = conn.define('posts',{
     id: {
@@ -18,6 +17,4 @@ const Post = conn.define('posts',{
     }  
 })
 
-module.exports = {
- Post
-} 
+module.exports = Post

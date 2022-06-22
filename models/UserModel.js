@@ -1,6 +1,8 @@
-const {Sequelize, DataTypes} = require('sequelize')
-const  conn = new Sequelize('luppi_app','root','',{host: 'localhost', dialect: 'mysql'})
-const {Post} = require('./PostModel')
+// const {Sequelize, DataTypes} = require('sequelize')
+// const  conn = new Sequelize('luppi_app','root','',{host: 'localhost', dialect: 'mysql'})
+const {DataTypes,conn} = require('../database/database.js')
+
+const Post = require('./PostModel')
 const {UserProfile} = require('./UserProfileModel')
 
 const User = conn.define('users',{

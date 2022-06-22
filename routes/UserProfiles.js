@@ -11,7 +11,7 @@ router.post('/',async(req, res)=>{
         age: req.body.age,
         gender: req.body.gender,
         country: req.body.country,
-        userId: userId.id
+        userId: userId
         })
         res.json({id})
         

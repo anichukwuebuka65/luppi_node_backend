@@ -1,30 +1,21 @@
 const {DataTypes,conn} = require('../database/database.js')
 
-const UserProfile = conn.define('user_profile',{
+const Friends = conn.define('friends',{
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
-    profilepicture: {
-        type: DataTypes.STRING,
-      },
-    age: {
+    friendUserId: {
         type: DataTypes.INTEGER,
-    },
-    gender: {
-        type: DataTypes.STRING,
-    },
-    country: {
-        type: DataTypes.STRING,
-    },
+        allowNull: false
+      },
     userId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: 'users',
         referencesKey: 'id'
     }  
 })
 
-module.exports = {
- UserProfile
-} 
+module.exports = Friends 
