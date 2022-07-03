@@ -31,7 +31,7 @@ const User = conn.define('users',{
     
 })
 
-User.hasOne(Post);
+User.hasMany(Post);
 User.hasOne(UserProfile);
 Post.belongsTo(User);
 UserProfile.belongsTo(User);

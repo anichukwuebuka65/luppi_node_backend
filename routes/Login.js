@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt')
 const authenticateUser = require('../middlewares/authenticateUser')
 
 router.post('/',async(req, res)=>{
+    console.log('hi')
     try { 
         const email = req.body.email.replace(/ /g,"")
         const password = req.body.password
@@ -21,9 +22,10 @@ router.post('/',async(req, res)=>{
         if(!user) return res.send("invalid email")
         const validPassword = await bcrypt.compare(password,user.password)    
         if(!validPassword) throw new Error("invalid password")
-        const token = jwt.sign({userId: user.id,email},'secret',{algorithm:'HS256', expiresIn: '50000'})
+        const token = jwt.sign({userId: user.id,email},'secret',{algorithm:'HS256', expiresIn: '1hr'})
         //res.cookie('luppi2',token,{maxAge: 4000, httpOnly: true})
         
+        //res.set("Access-Control-Allow-Origin", "*")
         res.send(token)
 
     } catch (error) {

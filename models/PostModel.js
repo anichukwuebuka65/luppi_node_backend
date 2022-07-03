@@ -1,4 +1,5 @@
 const {DataTypes,conn} = require('../database/database.js')
+const PostImages = require('./PostImagesModel.js')
 
 const Post = conn.define('posts',{
     id: {
@@ -6,7 +7,7 @@ const Post = conn.define('posts',{
         autoIncrement: true,
         primaryKey: true
       },
-    postName: {
+    post: {
         type: DataTypes.TEXT,
         allowNull: false
       },
@@ -16,5 +17,8 @@ const Post = conn.define('posts',{
         referencesKey: 'id'
     }  
 })
+
+Post.hasMany(PostImages)
+PostImages.belongsTo(Post)
 
 module.exports = Post
