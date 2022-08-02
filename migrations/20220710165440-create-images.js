@@ -2,25 +2,24 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('friends', {
+    await queryInterface.createTable('images', { 
       id: {
         type: Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement:true
       },
-      userId: {
-        type: Sequelize.INTEGER,
+      imageUrl: {
+        type: Sequelize.STRING,
         allowNull: false,
-        references: {
-          model: {
-            tableName: 'users'
-          },
-          key: 'id'
-        },
       },
-      allfriendId: {
+      commentableId: {
         type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      commentableType: {
+        type: Sequelize.STRING,
         allowNull: false,
+        
       },
       createdAt: {
         allowNull: false,
@@ -29,15 +28,12 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      status: {
-        type: Sequelize.STRING
-      },
-    })
-  }, 
+      }
+    });  
+  },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('user_profile');
-  }
+   await queryInterface.dropTable('images');
   
+  }
 };

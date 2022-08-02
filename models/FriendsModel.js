@@ -6,16 +6,22 @@ const Friends = conn.define('friends',{
         autoIncrement: true,
         primaryKey: true
       },
-    friendUserId: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+    allfriendId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: 'users',
+      referencesKey: 'id'
       },
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: 'users',
         referencesKey: 'id'
+    },
+    status: {
+      type: DataTypes.STRING
     }  
 })
+
 
 module.exports = Friends 

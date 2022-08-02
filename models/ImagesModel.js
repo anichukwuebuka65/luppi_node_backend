@@ -1,20 +1,21 @@
 const {conn,  DataTypes} = require("../database/database")
 
-const PostImages = conn.define("post_images",{
+const Image = conn.define("image",{
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    images: {
+    imageUrl: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    postId: {
+    commentableId: {
         type: DataTypes.INTEGER,
-        references: "posts",
-        referenceskey: "id"
+    },
+    commentableType: {
+        type: DataTypes.STRING,
     }
 })
 
-module.exports = PostImages
+module.exports = Image
