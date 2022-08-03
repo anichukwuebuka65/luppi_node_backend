@@ -9,6 +9,7 @@ const authenticateUser = require('./middlewares/authenticateUser')
 const cors = require('./middlewares/cors')
 const connCheck = require('./middlewares/databaseConn')
 require('dotenv').config()
+const imagekitAuth = require('./routes/Auth')
 
 app.use(cors)
 app.use(connCheck)
@@ -20,6 +21,8 @@ app.use('/login', loginRouter)
 app.use('/posts', router)
 app.use('/friendrequest',  FriendRequestRouter)
 app.use('/userprofiles', userProfileRouter)
+app.use('/auth', imagekitAuth)
+  
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT,()=>{
