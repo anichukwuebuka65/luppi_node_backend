@@ -2,29 +2,20 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('images', { 
+    await queryInterface.createTable('shares', { 
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement:true
       },
-      imageUrl: {
-        type: Sequelize.STRING,
+      shares: {
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       postId: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      // commentableId: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false
-      // },
-      // commentableType: {
-      //   type: Sequelize.STRING,
-      //   allowNull: false,
-        
-      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -37,7 +28,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-   await queryInterface.dropTable('images');
+   await queryInterface.dropTable('shares');
   
   }
 };

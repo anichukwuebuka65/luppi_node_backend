@@ -2,14 +2,14 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('images', { 
+    await queryInterface.createTable('comments', { 
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement:true
       },
-      imageUrl: {
-        type: Sequelize.STRING,
+      likes: {
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       postId: {
@@ -37,7 +37,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-   await queryInterface.dropTable('images');
+   await queryInterface.dropTable('comments');
   
   }
 };

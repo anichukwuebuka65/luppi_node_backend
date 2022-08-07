@@ -4,6 +4,9 @@ const {DataTypes,conn} = require('../database/database.js');
 const Friends = require('./FriendsModel.js');
 const Post = require('./PostModel')
 const Image = require('./ImagesModel')
+const Comments = require('./CommentsModel')
+const Likes = require('./LikesModel')
+const Shares = require('./SharesModel')
 const {UserProfile} = require('./UserProfileModel')
 
 const User = conn.define('users',{
@@ -35,28 +38,26 @@ const User = conn.define('users',{
 User.hasMany(Post);
 //User.hasMany(Friends);
 //User.hasMany(User);
-User.hasMany(Image, {
-  foreignKey: 'commentableId',
-  constraints: false,
-  scope: {
-    commentableType: 'user'
-  }
-});
-Image.belongsTo(User,{ 
-  foreignKey: 'commentableId',
-  constraints: false
-})
-Post.hasOne(Image, {
-  foreignKey: 'commentableId',
-  constraints: false,
-  scope: {
-    commentableType: 'post'
-  }
-});
-Image.belongsTo(Post,{ 
-  foreignKey: 'commentableId',
-  constraints: false
-})
+// User.hasMany(Image, {
+//   foreignKey: 'commentableId',
+//   constraints: false,
+//   scope: {
+//     commentableType: 'user'
+//   }
+// });
+// Image.belongsTo(User,{ 
+//   foreignKey: 'commentableId',
+//   constraints: false
+// })
+Post.hasOne(Image);
+Post.hasMany(Comments);
+Post.hasOne(Likes);
+Post.hasOne(Shares);
+Image.belongsTo(Post)
+Comments.belongsTo(Post)
+Likes.belongsTo(Post)
+Shares.belongsTo(Post)
+ 
 
 Image.addHook("afterFind", findResult => {
   if (!Array.isArray(findResult)) findResult = [findResult];

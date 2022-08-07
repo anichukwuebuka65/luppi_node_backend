@@ -5,14 +5,31 @@ const Friends = require('../models/FriendsModel')
 const Image = require('../models/ImagesModel')
 const User = require('../models/UserModel')
 const { Op } = require('sequelize')
+const Comments = require('../models/CommentsModel')
+const Likes = require('../models/LikesModel')
+const Shares = require('../models/SharesModel')
 
 router.post('/', async(req, res) => {
     try {
-        const post = await Post.create({
+        const {id} = await Post.create({
             post: req.body.post ? req.body.post : '',
-            userId: req.body.user 
+            userId: req.body.userId 
         });
-        res.status(200).json(post)
+        let result;
+        if(id && req.body.imageUrl ) {
+             result = await Image.create({
+                imageUrl: req.body.imageUrl,
+                postId: id
+            })
+        } 
+        res.status(200).json({
+            id: id,
+            post: req.body.post ? req.body.post : '',
+            imageUrl: req.body?.imageUrl,
+            comment:[],
+            likes:0,
+            shares:0
+        })
     }catch(err){
         res.send(`error:${err.message}`)
     }
@@ -21,11 +38,12 @@ router.post('/', async(req, res) => {
 router.get('/', async(req, res) => {
     try {
         
-      const posts = await fetchPost(req.query.userId)
+      const posts = await fetchPost(req.body.userId)
         // const posts = await Post.findAll({where: {userId: ids}, attributes:['id','post','updatedAt']})
         // if(posts.length == 0) return res.send(['no posts found'])
+
         res.status(200).json(posts)
-    }
+    } 
      catch (error) {
         res.status(400).send(error.message)
     }
@@ -58,7 +76,17 @@ async function fetchPost(user) {
         }, {
             model: Image,
             attributes: ['imageUrl']
-        }]
+        },{
+            model: Comments,
+            attributes: ['comments']
+        },{
+            model: Likes,
+            attributes: ['likes']
+        },{
+            model: Shares,
+            attributes: ['shares']
+        }
+        ]
     })
     return posts
     // console.log(ids)
