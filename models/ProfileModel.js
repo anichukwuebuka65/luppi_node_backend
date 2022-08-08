@@ -1,6 +1,6 @@
 const {DataTypes,conn} = require('../database/database.js')
 
-const UserProfile = conn.define('user_profile',{
+const Profile = conn.define('user_profile',{
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -26,5 +26,5 @@ const UserProfile = conn.define('user_profile',{
 })
 
 module.exports = {
- UserProfile
+ Profile
 } 

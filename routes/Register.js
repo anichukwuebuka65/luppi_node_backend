@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const {User} = require('../models/UserModel')
+const User = require('../models/UserModel')
 const bcrypt = require('bcrypt')
+const { Profile } = require('../models/ProfileModel')
 
 router.post('/', async(req, res) => {
     const nameRegex = /^[A-Za-z0-9]{3,15}$/;
@@ -19,14 +20,16 @@ router.post('/', async(req, res) => {
         const createUser = async() => {
             const oldUser = await User.findOne({where:{email: req.body.email},attributes:['email']})
             if(oldUser) return res.send('email already taken')
-
             const password = await bcrypt.hash(req.body.password,5)
-            const {firstName, lastName} = await User.create({
+            const {id,firstName, lastName} = await User.create({
             firstName:req.body.firstname ,
             lastName:req.body.lastname, 
             email: req.body.email, 
             password: password
             });
+            Profile.create({
+                userId: id
+            })
             return res.json({firstName, lastName})
         } 
        

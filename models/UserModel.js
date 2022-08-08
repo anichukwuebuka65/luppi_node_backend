@@ -7,7 +7,7 @@ const Image = require('./ImagesModel')
 const Comments = require('./CommentsModel')
 const Likes = require('./LikesModel')
 const Shares = require('./SharesModel')
-const {UserProfile} = require('./UserProfileModel')
+const {Profile} = require('./ProfileModel')
 
 const User = conn.define('users',{
     id: {
@@ -75,9 +75,9 @@ Image.addHook("afterFind", findResult => {
   }
 });
 
-User.hasOne(UserProfile);
+User.hasOne(Profile);
 Post.belongsTo(User);
 //User.belongsToMany(User,{ as: 'allfriends', through: Friends});
-UserProfile.belongsTo(User);
+Profile.belongsTo(User);
 
 module.exports = User 

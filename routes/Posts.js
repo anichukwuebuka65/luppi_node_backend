@@ -37,11 +37,8 @@ router.post('/', async(req, res) => {
 
 router.get('/', async(req, res) => {
     try {
-        
-      const posts = await fetchPost(req.body.userId)
-        // const posts = await Post.findAll({where: {userId: ids}, attributes:['id','post','updatedAt']})
-        // if(posts.length == 0) return res.send(['no posts found'])
-
+        const ids = await fetchIds(req.body.userId, Friends)
+        const posts = await fetchPost(ids)
         res.status(200).json(posts)
     } 
      catch (error) {
@@ -62,8 +59,7 @@ async function fetchIds(user, friends) {
     return ids
 }
 
-async function fetchPost(user) {
-    const ids = await fetchIds(user, Friends)
+async function fetchPost(ids) { 
     const posts = await Post.findAll({
         where: {
             userId: {
@@ -78,7 +74,7 @@ async function fetchPost(user) {
             attributes: ['imageUrl']
         },{
             model: Comments,
-            attributes: ['comments']
+            attributes: ['id','comments']
         },{
             model: Likes,
             attributes: ['likes']
@@ -89,29 +85,10 @@ async function fetchPost(user) {
         ]
     })
     return posts
-    // console.log(ids)
-    // const results = User.findAll({
-    //     where: {
-    //         id: {
-    //             [Op.in]: ids
-    //         }
-    //     },
-    //     attributes: ['id','firstName','lastName'],
-    //     include: [{
-    //         model: Post,
-    //         include: {
-    //             model: Image,
-    //             attributes: ['imageUrl']
-    //         }
-    //     },{
-    //         model: Image,
-    //         attributes: ['imageUrl']
-    //     }]
-    // })
-    // return results
   }
 
 module.exports = {
     router,
-    putIdsInArray
+    putIdsInArray,
+    fetchPost
 }

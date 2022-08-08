@@ -1,32 +1,42 @@
 const express = require('express')
 const router = express.Router()
-const {User} = require('../models/UserModel')
+const User = require('../models/UserModel')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const authenticateUser = require('../middlewares/authenticateUser')
+const { Profile } = require('../models/ProfileModel')
 
 router.post('/',async(req, res)=>{
-    console.log('hi')
     try { 
+        console.log(req.body)
         const email = req.body.email.replace(/ /g,"")
-        const password = req.body.password
+        const pwd = req.body.password
 
-        if(!email && !password)return res.send('missing credentials')
+        if(!email && !pwd)return res.send('missing credentials')
         const sanitize = /[!#$%`~*{};?/:+=<>(|)]/
        if(sanitize.test(email)) return res.send('invalid email')
 
-        const user =  await User.findOne({
-            where:{email: req.body.email},
-            attributes:['id','password']})
+        const {id,password,firstName,lastName, user_profile} =  await User.findOne({
+            where:{
+                email: req.body.email
+            },
+            include:{
+                model: Profile,
+                attributes: ['profilepicture']
+            }
+        })
 
-        if(!user) return res.send("invalid email")
-        const validPassword = await bcrypt.compare(password,user.password)    
+        if(!id) return res.send("invalid email")
+        const validPassword = await bcrypt.compare(pwd, password)    
         if(!validPassword) throw new Error("invalid password")
-        const token = jwt.sign({userId: user.id,email},'secret',{algorithm:'HS256', expiresIn: '1hr'})
-        //res.cookie('luppi2',token,{maxAge: 4000, httpOnly: true})
-        
-        //res.set("Access-Control-Allow-Origin", "*")
-        res.send(token)
+        const token = jwt.sign({userId: id,email},'secret',{algorithm:'HS256', expiresIn: '1hr'})
+        res.cookie('luppi2',token,{maxAge: 4000, httpOnly: true})
+        res.status(200).send({id,
+            firstName,
+            lastName,
+            profilepic: user_profile.profilepicture,
+            isLoggedIn: true
+        })
 
     } catch (error) {
        res.end(error.message) 

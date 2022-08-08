@@ -32,26 +32,25 @@ router.get('/',async(req, res) => {
 
 router.post('/',async(req, res) => {
     try {
-        console.log(req.body)
-        const {allfriendId, userId} = req.body
+        const {friendId, userId} = req.body
         const {status} = req.query
-        const result = await addFriendFunc(status, allfriendId, userId)
+        const result = await addFriendFunc(status, friendId, userId)
         res.json(result)
     } catch (error) {
         res.send("server error, try again")
     }
 })
 
-function addFriendFunc (status, allfriendId, userId) {
+function addFriendFunc (status, friendId, userId) {
     const whereParams = {
-        allfriendId,
+        friendId,
         userId
     }
 
     switch (status) {
         case 'add':
             const added = Friends.create({
-                allfriendId,
+                friendId,
                 userId,
                 status: 'pending'
             })
