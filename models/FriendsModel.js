@@ -6,7 +6,7 @@ const Friends = conn.define('friends',{
         autoIncrement: true,
         primaryKey: true
       },
-    allfriendId: {
+    friendId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: 'users',

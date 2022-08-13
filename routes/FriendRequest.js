@@ -5,16 +5,27 @@ const Friends = require('../models/FriendsModel')
 const User = require('../models/UserModel')
 const {putIdsInArray} = require('./Posts')
 
+router.get('/count', async(req, res) => {
+
+    const reqCount = Friends.count({
+        where: {
+            [Op.and]: {
+                userId: req.body.userId,
+                status: 'pending'
+            }
+        }
+    })
+})
 
 router.get('/',async(req, res) => {
     try {
-        const userId = req.query.userId
+        const userId = req.body.userId
         const ids = await Friends.findAll({
                             where: {
                                 userId,
                                 status: 'pending'
                         },
-                        attributes: ['allfriendId'],
+                        attributes: ['friendId'],
                     })
         const result = await User.findAll({
             where: {
@@ -35,13 +46,14 @@ router.post('/',async(req, res) => {
         const {friendId, userId} = req.body
         const {status} = req.query
         const result = await addFriendFunc(status, friendId, userId)
+        console.log(result)
         res.json(result)
     } catch (error) {
         res.send("server error, try again")
     }
 })
 
-function addFriendFunc (status, friendId, userId) {
+async function addFriendFunc (status, friendId, userId) {
     const whereParams = {
         friendId,
         userId
@@ -49,14 +61,14 @@ function addFriendFunc (status, friendId, userId) {
 
     switch (status) {
         case 'add':
-            const added = Friends.create({
+            const added = await Friends.create({
                 friendId,
                 userId,
                 status: 'pending'
             })
             if (added) return 'success'
         case 'accept':
-            return Friends.update({
+            return await Friends.update({
                 status: 'accepted'
             },{
                 where: {
@@ -64,7 +76,7 @@ function addFriendFunc (status, friendId, userId) {
                 }
             })
         case 'decline':
-            return Friends.destroy({
+            return await Friends.destroy({
                 where: {
                     [Op.and]: whereParams
                 }

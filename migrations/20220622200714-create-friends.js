@@ -18,7 +18,7 @@ module.exports = {
           key: 'id'
         },
       },
-      allfriendId: {
+      friendId: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },

@@ -8,7 +8,6 @@ const { Profile } = require('../models/ProfileModel')
 
 router.post('/',async(req, res)=>{
     try { 
-        console.log(req.body)
         const email = req.body.email.replace(/ /g,"")
         const pwd = req.body.password
 
@@ -29,9 +28,10 @@ router.post('/',async(req, res)=>{
         if(!id) return res.send("invalid email")
         const validPassword = await bcrypt.compare(pwd, password)    
         if(!validPassword) throw new Error("invalid password")
-        const token = jwt.sign({userId: id,email},'secret',{algorithm:'HS256', expiresIn: '1hr'})
-        res.cookie('luppi2',token,{maxAge: 4000, httpOnly: true})
-        res.status(200).send({id,
+        const token = jwt.sign({ id,email},'secret',{ expiresIn: '1hr'})
+        res.cookie('luppi', token,{maxAge: 5 * 60 * 60 * 1000, httpOnly: true})
+        res.status(200).json({
+            id,
             firstName,
             lastName,
             profilepic: user_profile.profilepicture,

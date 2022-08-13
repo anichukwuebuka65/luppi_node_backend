@@ -48,14 +48,14 @@ router.get('/', async(req, res) => {
 
 async function fetchIds(user, friends) {
     const result = await friends.findAll({ where: {userId: user},
-         attributes: ['allfriendId'],  
+         attributes: ['friendId'],  
     })
     return putIdsInArray(result, user)
 }
 
  const putIdsInArray = (result, user, ) => {
     const ids = [user]
-    result.map(data => ids.push(data.allfriendId))
+    result.map(data => ids.push(data.friendId))
     return ids
 }
 
