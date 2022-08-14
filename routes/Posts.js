@@ -26,9 +26,9 @@ router.post('/', async(req, res) => {
             id: id,
             post: req.body.post ? req.body.post : '',
             imageUrl: req.body?.imageUrl,
-            comment:[],
-            likes:0,
-            shares:0
+            // comment:[],
+            // likes:0,
+            // shares:0
         })
     }catch(err){
         res.send(`error:${err.message}`)

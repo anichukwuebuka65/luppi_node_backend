@@ -6,34 +6,40 @@ const { Profile } = require('../models/ProfileModel')
 
 router.post('/', async(req, res) => {
     const nameRegex = /^[A-Za-z0-9]{3,15}$/;
-    const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%]).{8,20}$/;
+    const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%]).{8,20}$/; 
     const emailRegex =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
     const validFirstname = nameRegex.test( req.body.firstname)
     const validLastname = nameRegex.test(req.body.lastname)
-    const validPwd = pwdRegex.test(req.body.password)
+    const validPwd = pwdRegex.test(req.body.pwd)
     const validEmail = emailRegex.test(req.body.email)
-    console .log(validPwd)
+    console.log(req.body)
 
     if(!validFirstname || !validLastname || !validPwd || !validEmail) return res.status(400).send('credentials cannot be accepted')
 
         const createUser = async() => {
             const oldUser = await User.findOne({where:{email: req.body.email},attributes:['email']})
-            if(oldUser) return res.send('email already taken')
-            const password = await bcrypt.hash(req.body.password,5)
-            const {id,firstName, lastName} = await User.create({
+            if(oldUser) return res.status(400).send('email already taken')
+            const password = await bcrypt.hash(req.body.pwd, 5)
+
+            const result = await User.create({
             firstName:req.body.firstname ,
             lastName:req.body.lastname, 
             email: req.body.email, 
             password: password
             });
             Profile.create({
-                userId: id
+                userId: result.id,
+                profilepicture: "https://ik.imagekit.io/feov916dg/profile_image_Bm_zD2V7c.png"
             })
-            return res.json({firstName, lastName})
+            if (result) return res.status(200).json("success")
         } 
-       
-       createUser()
+       try {
+             createUser()
+       } catch (error) {
+             res.status(500).send("server error")
+       }
+      
    
 })
 

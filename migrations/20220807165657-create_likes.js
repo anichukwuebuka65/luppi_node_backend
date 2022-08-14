@@ -2,7 +2,7 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('comments', { 
+    await queryInterface.createTable('likes', { 
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -37,7 +37,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-   await queryInterface.dropTable('comments');
+   await queryInterface.dropTable('likes');
   
   }
 };

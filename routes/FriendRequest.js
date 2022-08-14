@@ -7,7 +7,7 @@ const {putIdsInArray} = require('./Posts')
 
 router.get('/count', async(req, res) => {
 
-    const reqCount = Friends.count({
+    const reqCount = await Friends.count({
         where: {
             [Op.and]: {
                 userId: req.body.userId,
@@ -15,6 +15,7 @@ router.get('/count', async(req, res) => {
             }
         }
     })
+    res.json(reqCount)
 })
 
 router.get('/',async(req, res) => {
@@ -61,6 +62,7 @@ async function addFriendFunc (status, friendId, userId) {
 
     switch (status) {
         case 'add':
+            if(friendId === userId) return res.status(400).send("You can not add yourself as friend")
             const added = await Friends.create({
                 friendId,
                 userId,

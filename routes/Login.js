@@ -11,9 +11,9 @@ router.post('/',async(req, res)=>{
         const email = req.body.email.replace(/ /g,"")
         const pwd = req.body.password
 
-        if(!email && !pwd)return res.send('missing credentials')
+        if(!email && !pwd)return res.status(500).send('missing credentials')
         const sanitize = /[!#$%`~*{};?/:+=<>(|)]/
-       if(sanitize.test(email)) return res.send('invalid email')
+       if(sanitize.test(email)) return res.status(401).send('invalid email')
 
         const {id,password,firstName,lastName, user_profile} =  await User.findOne({
             where:{
@@ -25,11 +25,11 @@ router.post('/',async(req, res)=>{
             }
         })
 
-        if(!id) return res.send("invalid email")
+        if(!id) return res.status(400).send("invalid email")
         const validPassword = await bcrypt.compare(pwd, password)    
         if(!validPassword) throw new Error("invalid password")
         const token = jwt.sign({ id,email},'secret',{ expiresIn: '1hr'})
-        res.cookie('luppi', token,{maxAge: 5 * 60 * 60 * 1000, httpOnly: true})
+        res.cookie('luppi', token,{ httpOnly: true})
         res.status(200).json({
             id,
             firstName,
@@ -39,7 +39,7 @@ router.post('/',async(req, res)=>{
         })
 
     } catch (error) {
-       res.end(error.message) 
+       res.status(401).send("server error, try again later") 
     }
 })
 
