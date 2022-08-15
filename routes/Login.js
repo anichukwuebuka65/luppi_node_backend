@@ -28,7 +28,7 @@ router.post('/',async(req, res)=>{
         if(!id) return res.status(400).send("invalid email")
         const validPassword = await bcrypt.compare(pwd, password)    
         if(!validPassword) throw new Error("invalid password")
-        const token = jwt.sign({ id,email},'secret',{ expiresIn: '1hr'})
+        const token = jwt.sign({ id,email},process.env.SECRET,{ expiresIn: '1hr'})
         res.cookie('luppi', token,{ httpOnly: true})
         res.status(200).json({
             id,
