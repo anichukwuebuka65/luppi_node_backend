@@ -13,7 +13,6 @@ router.post('/', async(req, res) => {
     const validLastname = nameRegex.test(req.body.lastname)
     const validPwd = pwdRegex.test(req.body.pwd)
     const validEmail = emailRegex.test(req.body.email)
-    console.log(req.body)
 
     if(!validFirstname || !validLastname || !validPwd || !validEmail) return res.status(400).send('credentials cannot be accepted')
 
