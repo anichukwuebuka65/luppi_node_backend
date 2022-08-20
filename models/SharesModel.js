@@ -16,6 +16,8 @@ const Shares = conn.define("shares",{
     },
 })
 
-await Shares.sync();
+Shares.sync()
+.then(() => console.log("tables created successfully"))
+.catch(error => console.log(error))
 
 module.exports = Shares

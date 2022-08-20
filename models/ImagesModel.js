@@ -22,6 +22,8 @@ const Image = conn.define("image",{
     // }
 })
 
-await Image.sync();
+Image.sync()
+.then(() => console.log("tables created successfully"))
+.catch(error => console.log(error))
 
 module.exports = Image

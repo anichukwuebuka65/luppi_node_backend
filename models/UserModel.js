@@ -35,7 +35,9 @@ const User = conn.define('users',{
     
 })
 
-await User.sync();
+User.sync()
+.then(() => console.log("tables created successfully"))
+.catch(error => console.log(error))
 
 User.hasMany(Post);
 //User.hasMany(Friends);

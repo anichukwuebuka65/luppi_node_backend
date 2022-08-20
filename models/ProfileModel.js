@@ -25,7 +25,9 @@ const Profile = conn.define('user_profile',{
     }  
 })
 
-await Profile.sync();
+Profile.sync()
+.then(() => console.log("tables created successfully"))
+.catch(error => console.log(error))
 
 module.exports = {
  Profile

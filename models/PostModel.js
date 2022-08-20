@@ -19,6 +19,8 @@ const Post = conn.define('post',{
     
 })
 
-await Post.sync();
+Post.sync()
+.then(() => console.log("tables created successfully"))
+.catch(error => console.log(error))
 
 module.exports = Post

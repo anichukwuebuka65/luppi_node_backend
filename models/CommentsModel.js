@@ -16,6 +16,8 @@ const Comments = conn.define("comments",{
     },
 })
 
-await Comments.sync();
+Comments.sync()
+.then(() => console.log("tables created successfully"))
+.catch(error => console.log(error))
 
 module.exports = Comments

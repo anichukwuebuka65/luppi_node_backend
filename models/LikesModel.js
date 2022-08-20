@@ -16,6 +16,8 @@ const Likes = conn.define("likes",{
     },
 })
 
-await Likes.sync();
+Likes.sync()
+.then(() => console.log("tables created successfully"))
+.catch(error => console.log(error))
 
 module.exports = Likes

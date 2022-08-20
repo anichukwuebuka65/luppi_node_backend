@@ -23,6 +23,8 @@ const Friends = conn.define('friends',{
     }  
 })
 
-await Friends.sync();
+Friends.sync()
+.then(() => console.log("tables created successfully"))
+.catch(error => console.log(error))
 
 module.exports = Friends 
