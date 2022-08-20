@@ -16,4 +16,6 @@ const Likes = conn.define("likes",{
     },
 })
 
+await Likes.sync();
+
 module.exports = Likes

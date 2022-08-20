@@ -16,4 +16,6 @@ const Comments = conn.define("comments",{
     },
 })
 
+await Comments.sync();
+
 module.exports = Comments

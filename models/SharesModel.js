@@ -16,4 +16,6 @@ const Shares = conn.define("shares",{
     },
 })
 
+await Shares.sync();
+
 module.exports = Shares

@@ -22,4 +22,6 @@ const Image = conn.define("image",{
     // }
 })
 
+await Image.sync();
+
 module.exports = Image

@@ -19,4 +19,6 @@ const Post = conn.define('post',{
     
 })
 
+await Post.sync();
+
 module.exports = Post

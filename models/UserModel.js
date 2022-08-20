@@ -35,6 +35,8 @@ const User = conn.define('users',{
     
 })
 
+await User.sync();
+
 User.hasMany(Post);
 //User.hasMany(Friends);
 //User.hasMany(User);

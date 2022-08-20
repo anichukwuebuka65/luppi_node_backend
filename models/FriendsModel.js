@@ -23,5 +23,6 @@ const Friends = conn.define('friends',{
     }  
 })
 
+await Friends.sync();
 
 module.exports = Friends 

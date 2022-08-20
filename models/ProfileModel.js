@@ -25,6 +25,8 @@ const Profile = conn.define('user_profile',{
     }  
 })
 
+await Profile.sync();
+
 module.exports = {
  Profile
 } 
