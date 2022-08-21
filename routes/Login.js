@@ -15,7 +15,7 @@ router.post('/',async(req, res)=>{
         const sanitize = /[!#$%`~*{};?/:+=<>(|)]/
        if(sanitize.test(email)) return res.status(401).send('invalid email')
 
-        const {id,password,firstName,lastName, user_profile} =  await User.findOne({
+        const {id,password,firstName,lastName, profilepicture} =  await User.findOne({
             where:{
                 email: req.body.email
             },
@@ -28,13 +28,13 @@ router.post('/',async(req, res)=>{
         if(!id) return res.status(400).send("invalid email")
         const validPassword = await bcrypt.compare(pwd, password)    
         if(!validPassword) throw new Error("invalid password")
-        const token = jwt.sign({ id,email},process.env.SECRET,{ expiresIn: '1hr'})
+        const token = jwt.sign({ id,email},process.env.SECRET,{ expiresIn: '24hr'})
         res.cookie('luppi', token,{ httpOnly: true})
         res.status(200).json({
             id,
             firstName,
             lastName,
-            profilepic: user_profile.profilepicture,
+            profilepic: profilepicture,
             isLoggedIn: true
         })
 
