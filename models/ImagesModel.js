@@ -1,6 +1,6 @@
 const {conn,  DataTypes} = require("../database/database")
 
-const Image = conn.define("image",{
+const Image = conn.define("images",{
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,

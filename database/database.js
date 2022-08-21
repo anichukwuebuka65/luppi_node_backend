@@ -2,11 +2,12 @@ const {Sequelize, DataTypes} = require('sequelize')
 require("dotenv").config()
 //const  conn = new Sequelize('luppi_app','root','',{host: 'localhost', dialect: 'mysql'})
 const  conn = new Sequelize(process.env.DATABASE_URL,{
-     "dialect": "postgres",
-     "ssl": true,
-     "dialectOptions": {
-         "ssl": true,
-         "rejectUnauthorized" : false
+     dialect: "postgres",
+     dialectOptions: {
+         ssl: {
+            require: true,
+           rejectUnauthorized : false
+         }
      }
 })
    

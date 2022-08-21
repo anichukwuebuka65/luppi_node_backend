@@ -1,7 +1,7 @@
 const {DataTypes,conn} = require('../database/database.js')
 const Images = require('./ImagesModel.js')
 
-const Post = conn.define('post',{
+const Post = conn.define('posts',{
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
