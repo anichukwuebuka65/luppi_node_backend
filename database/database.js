@@ -5,13 +5,14 @@ const  conn = new Sequelize(process.env.DATABASE_URL,{
      "dialect": "postgres",
      "ssl": true,
      "dialectOptions": {
-         "ssl": true
+         "ssl": true,
+         "rejectUnauthorized" : false
      }
 })
    
  conn.authenticate()
  .then(data =>console.log("connected"))
-.catch(error => console.log(error))
+.catch(error => console.log("the error is THAT" + error))
    
 module.exports = {
     conn, DataTypes
