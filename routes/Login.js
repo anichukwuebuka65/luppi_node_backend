@@ -39,7 +39,7 @@ router.post('/',async(req, res)=>{
         })
 
     } catch (error) {
-       res.status(401).send("server error, try again later") 
+       res.status(401).send(error) 
     }
 })
 
