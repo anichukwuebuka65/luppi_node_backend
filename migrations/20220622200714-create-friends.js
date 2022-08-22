@@ -37,7 +37,7 @@ module.exports = {
   }, 
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('user_profile');
+    await queryInterface.dropTable('friends');
   }
   
 };

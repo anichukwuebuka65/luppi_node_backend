@@ -11,8 +11,12 @@ const Shares = conn.define("shares",{
         allowNull: false
     },
     postId: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'posts',
+            key: 'id'
+          }
     },
 })
 

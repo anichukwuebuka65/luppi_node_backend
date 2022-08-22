@@ -20,8 +20,10 @@ const Profile = conn.define('user_profiles',{
     },
     userId: {
         type: DataTypes.INTEGER,
-        references: 'users',
-        referencesKey: 'id'
+        references: {
+            model: 'users',
+            key: 'id'
+          }
     }  
 })
 

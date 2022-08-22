@@ -9,14 +9,18 @@ const Friends = conn.define('friends',{
     friendId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: 'users',
-      referencesKey: 'id'
-      },
+      references: {
+        model: 'users',
+        key: 'id'
+      }
+    },
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: 'users',
-        referencesKey: 'id'
+        references: {
+          model: 'users',
+          key: 'id'
+        }
     },
     status: {
       type: DataTypes.STRING

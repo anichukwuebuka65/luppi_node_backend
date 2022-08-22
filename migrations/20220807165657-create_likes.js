@@ -13,8 +13,14 @@ module.exports = {
         allowNull: false,
       },
       postId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: {
+            tableName: 'posts'
+          },
+          key: 'id'
+        },
       },
       // commentableId: {
       //   type: Sequelize.INTEGER,

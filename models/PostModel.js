@@ -1,5 +1,4 @@
 const {DataTypes,conn} = require('../database/database.js')
-const Images = require('./ImagesModel.js')
 
 const Post = conn.define('posts',{
     id: {
@@ -13,8 +12,11 @@ const Post = conn.define('posts',{
       },
     userId: {
         type: DataTypes.INTEGER,
-        references: 'users',
-        referencesKey: 'id'
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+        
     },  
     
 })

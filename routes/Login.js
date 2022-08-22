@@ -11,11 +11,11 @@ router.post('/',async(req, res)=>{
         const email = req.body.email.replace(/ /g,"")
         const pwd = req.body.password
 
-        if(!email && !pwd)return res.status(500).send('missing credentials')
+        if(!email || !pwd)return res.status(500).json('missing credentials')
         const sanitize = /[!#$%`~*{};?/:+=<>(|)]/
-       if(sanitize.test(email)) return res.status(401).send('invalid email')
+       if(sanitize.test(email)) return res.status(401).json('invalid email')
 
-        const {id,password,firstName,lastName, profilepicture} =  await User.findOne({
+        const user =  await User.findOne({
             where:{
                 email: req.body.email
             },
@@ -25,16 +25,17 @@ router.post('/',async(req, res)=>{
             }
         })
 
-        if(!id) return res.status(400).send("invalid email")
-        const validPassword = await bcrypt.compare(pwd, password)    
+        if(!user) return res.status(400).json("invalid email")
+        const validPassword = await bcrypt.compare(pwd, user.password)    
         if(!validPassword) throw new Error("invalid password")
-        const token = jwt.sign({ id,email},process.env.SECRET,{ expiresIn: '24hr'})
+        const token = jwt.sign({ id: user.id,email},process.env.SECRET,{ expiresIn: '24hr'})
         res.cookie('luppi', token,{ httpOnly: true})
+        const {id, firstName, lastName, user_profile} = user
         res.status(200).json({
             id,
             firstName,
             lastName,
-            profilepic: profilepicture,
+            profilepicture: user_profile.profilepicture,
             isLoggedIn: true
         })
 

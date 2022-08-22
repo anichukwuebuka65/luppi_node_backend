@@ -4,7 +4,7 @@ const authenticateUser = (req, res, next) => {
 
    if (token === null) return res.status(400).send("unauthorized");
   try {
-      const {id} = jwt.verify(token,process.env.PORT)
+      const {id} = jwt.verify(token, process.env.SECRET)
       if(id) {
         req.body.userId = id
         next()
