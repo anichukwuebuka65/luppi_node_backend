@@ -40,6 +40,7 @@ User.sync()
 .catch(error => console.log(error))
 
 User.hasMany(Post);
+User.hasMany(Comments);
 //User.hasMany(Friends);
 //User.hasMany(User);
 // User.hasMany(Image, {
@@ -59,6 +60,7 @@ Post.hasOne(Likes);
 Post.hasOne(Shares);
 Image.belongsTo(Post)
 Comments.belongsTo(Post)
+Comments.belongsTo(User)
 Likes.belongsTo(Post)
 Shares.belongsTo(Post)
  

@@ -18,6 +18,14 @@ const Comments = conn.define("comments",{
             key: 'id'
           }
     },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false, 
+        references: {
+            model: 'users',
+            key: 'id'
+          }
+    },
 })
 
 Comments.sync()

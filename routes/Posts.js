@@ -8,6 +8,7 @@ const { Op } = require('sequelize')
 const Comments = require('../models/CommentsModel')
 const Likes = require('../models/LikesModel')
 const Shares = require('../models/SharesModel')
+const { Profile } = require('../models/ProfileModel')
 
 router.post('/', async(req, res) => {
     try {
@@ -15,6 +16,11 @@ router.post('/', async(req, res) => {
             post: req.body.post ? req.body.post : '',
             userId: req.body.userId 
         });
+        await Likes.create({
+            likes: 0,
+            postId: id
+        })
+        
         let result;
         if(id && req.body.imageUrl ) {
              result = await Image.create({
@@ -27,10 +33,10 @@ router.post('/', async(req, res) => {
             post: req.body.post ? req.body.post : '',
             image: {
                 imageUrl: req.body?.imageUrl,
-            }
-            // comment:[],
-            // likes:0,
-            // shares:0
+            },
+             comment:[],
+             like:{likes:0},
+             shares:0
         })
     }catch(err){
         res.send(`error:${err.message}`)
@@ -76,7 +82,16 @@ async function fetchPost(ids) {
             attributes: ['imageUrl']
         },{
             model: Comments,
-            attributes: ['id','comments']
+            //attributes: [],
+            limit: 2,
+             include: {
+                 model: User,
+                 attributes:["id"],
+                include:{
+                    model: Profile,
+                    attributes: ['profilepicture']
+                }
+             }
         },{
             model: Likes,
             attributes: ['likes']
