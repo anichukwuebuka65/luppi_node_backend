@@ -11,7 +11,7 @@ router.post("/", async(req, res) => {
             postId: req.body.postId,
             userId: req.body.userId
         })
-        const results = await Comment.findOne({
+        const comment = await Comment.findOne({
             where: {
                 postId: req.body.postId
             },
@@ -24,11 +24,8 @@ router.post("/", async(req, res) => {
                 }
             }
         })
-        const comments = results.map((result) => {
-            const { id, comments, updatedAt, user} = result
-            return {id,comments,updatedAt,user: user.user_profile}
-        })
-        res.status(200).json(comments)
+        const { id, comments, updatedAt, user} = comment
+        res.status(200).json({id,comments,updatedAt,user: user.user_profile})
     } catch (error) {
         res.status(500).json(error)
     }
