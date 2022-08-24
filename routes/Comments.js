@@ -11,7 +11,24 @@ router.post("/", async(req, res) => {
             postId: req.body.postId,
             userId: req.body.userId
         })
-        res.status(200).json(result)
+        const results = await Comment.findOne({
+            where: {
+                postId: req.body.postId
+            },
+            include: {
+                model: User,
+                attributes:["id"],
+                include:{
+                    model: Profile,
+                    attributes: ['profilepicture']
+                }
+            }
+        })
+        const comments = results.map((result) => {
+            const { id, comments, updatedAt, user} = result
+            return {id,comments,updatedAt,user: user.user_profile}
+        })
+        res.status(200).json(comments)
     } catch (error) {
         res.status(500).json(error)
     }
@@ -44,5 +61,6 @@ router.get("/", async(req, res) => {
         console.log(error)
     }
 })
+
 
 module.exports = router
