@@ -16,14 +16,16 @@ const imagekitAuth = require('./routes/Auth')
 const cookieParser = require('cookie-parser')
 
 
-app.use(cors({origin: true, credentials: true}))
+app.use(cors({origin: "http://localhost:3000", credentials: true}))
 app.use(connCheck)
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({extended: false}))
 app.use('/register', registerRouter)
 app.use('/login', loginRouter)
-app.get("/",(req, res) => res.json('deployed successfully'))
+app.get("/",(req, res) => {
+    console.log(req.get("origin"))
+    res.json('deployed successfully')})
 app.use('/auth', imagekitAuth)
 app.use(authenticateUser)
 app.use('/logout', logoutRouter)
