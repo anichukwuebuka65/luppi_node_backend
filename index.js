@@ -16,7 +16,7 @@ const imagekitAuth = require('./routes/Auth')
 const cookieParser = require('cookie-parser')
 
 
-app.use(cors({origin:"https://super-marzipan-20771a.netlify.app", credentials: true}))
+app.use(cors({origin:"https://scintillating-panda-8cd87c.netlify.app", credentials: true}))
 app.use(connCheck)
 app.use(express.json())
 app.use(cookieParser())
