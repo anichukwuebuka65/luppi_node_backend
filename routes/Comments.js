@@ -11,21 +11,24 @@ router.post("/", async(req, res) => {
             postId: req.body.postId,
             userId: req.body.userId
         })
-        const comment = await Comment.findOne({
-            where: {
-                postId: req.body.postId
-            },
-            include: {
-                model: User,
-                attributes:["id"],
-                include:{
-                    model: Profile,
-                    attributes: ['profilepicture']
-                }
-            }
-        })
-        const { id, comments, updatedAt, user} = comment
-        res.status(200).json({id,comments,updatedAt,user: user.user_profile})
+        // const comment = await Comment.findOne({
+        //     where: {
+        //         [Op.and]:{
+        //             postId: req.body.postId,
+        //             comment: req.body.comment
+        //         } 
+        //     },
+        //     include: {
+        //         model: User,
+        //         attributes:["id"],
+        //         include:{
+        //             model: Profile,
+        //             attributes: ['profilepicture']
+        //         }
+        //     }
+        // })
+        
+        res.status(200).json(result)
     } catch (error) {
         res.status(500).json(error)
     }

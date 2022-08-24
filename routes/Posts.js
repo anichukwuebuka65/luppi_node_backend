@@ -83,7 +83,7 @@ async function fetchPost(ids) {
         },{
             model: Comments,
             //attributes: [],
-            limit: 2,
+            limit: 3,
              include: {
                  model: User,
                  attributes:["id"],
