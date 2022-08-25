@@ -47,6 +47,7 @@ router.get('/', async(req, res) => {
     try {
         const ids = await fetchIds(req.body.userId, Friends)
         const posts = await fetchPost(ids)
+        console.log(req.cookies)
         res.status(200).json(posts)
     } 
      catch (error) {
