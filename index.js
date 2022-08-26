@@ -17,8 +17,8 @@ const cookieParser = require('cookie-parser')
 
 
 app.use(cors({
-    //origin:"https://scintillating-panda-8cd87c.netlify.app", 
-    origin:"http://localhost:3000",
+    origin:"https://scintillating-panda-8cd87c.netlify.app", 
+    //origin:"http://localhost:3000",
     credentials: true}))
 app.use(connCheck)
 app.use(express.json())
