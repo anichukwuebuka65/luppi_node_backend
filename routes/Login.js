@@ -29,7 +29,7 @@ router.post('/',async(req, res)=>{
         const validPassword = await bcrypt.compare(pwd, user.password)    
         if(!validPassword) throw new Error("invalid password")
         const token = jwt.sign({ id: user.id,email},process.env.SECRET,{ expiresIn: '24hr'})
-        res.cookie('luppi', token,{ httpOnly: true, secure: true, sameSite: true})
+        res.cookie('luppi', token,{ httpOnly: true, secure: true, sameSite: 'none'})
         const {id, firstName, lastName, user_profile} = user
         res.status(200).json({
             id,
