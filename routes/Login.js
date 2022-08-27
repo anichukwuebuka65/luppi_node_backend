@@ -36,7 +36,7 @@ router.post('/',async(req, res)=>{
             firstName,
             lastName,
             profilepicture: user_profile.profilepicture,
-            isLoggedIn: true
+            isLoggedIn: true,
         })
 
     } catch (error) {

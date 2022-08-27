@@ -17,7 +17,7 @@ const cookieParser = require('cookie-parser')
 
 
 app.use(cors({
-    origin:"https://scintillating-panda-8cd87c.netlify.app", 
+    origin:"https://luppi-react.herokuapp.com", 
     //origin:"http://localhost:3000",
     credentials: true}))
 app.use(connCheck)
@@ -27,7 +27,6 @@ app.use(express.urlencoded({extended: false}))
 app.use('/register', registerRouter)
 app.use('/login', loginRouter)
 app.get("/",(req, res) => {
-    console.log(req.get("origin"))
     res.json('deployed successfully')})
 app.use('/auth', imagekitAuth)
 app.use(authenticateUser)
