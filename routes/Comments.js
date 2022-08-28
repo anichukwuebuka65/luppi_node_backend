@@ -6,11 +6,12 @@ const User = require('../models/UserModel')
 
 router.post("/", async(req, res) => {
     try {
-        const result = await Comment.create({
+        let result = await Comment.create({
             comments: req.body.comment,
             postId: req.body.postId,
             userId: req.body.userId
         })
+        result = result.toJSON()
         res.status(200).json({
             comments: result.comments,
             id: result.id
