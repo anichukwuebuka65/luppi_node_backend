@@ -26,12 +26,13 @@ router.get("/", async(req, res) => {
     try {
         const results = await Comment.findAll({
             where: {
-                postId: req.body.postId
+                postId: parseInt(req.query.postId)
             },
-            limit: 10,
+            limit: 5,
+             offset: parseInt(req.query.offset),
             include: {
                 model: User,
-                attributes:["id"],
+                attributes:["id","firstName","lastName"],
                 include:{
                     model: Profile,
                     attributes: ['profilepicture']
@@ -43,7 +44,7 @@ router.get("/", async(req, res) => {
             return {id,comments,updatedAt,user: user.user_profile}
         })
 
-        res.status(200).json(comments)
+         res.status(200).json(comments)
     } catch (error) {
         res.status(500).json("server error")
         console.log(error)

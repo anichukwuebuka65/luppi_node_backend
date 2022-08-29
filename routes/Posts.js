@@ -87,7 +87,7 @@ async function fetchPost(ids) {
             limit: 3,
              include: {
                  model: User,
-                 attributes:["id"],
+                 attributes:["id","firstName","lastName"],
                 include:{
                     model: Profile,
                     attributes: ['profilepicture']
