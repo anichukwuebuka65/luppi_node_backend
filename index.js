@@ -7,6 +7,7 @@ const {router} = require('./routes/Posts')
 const FriendRequestRouter = require('./routes/FriendRequest')
 const ProfileRouter = require('./routes/Profiles')
 const CommentRouter = require('./routes/Comments')
+const UsersRouter = require('./routes/Users')
 const LikeRouter = require('./routes/Likes')
 const authenticateUser = require('./middlewares/authenticateUser')
 const cors = require('cors')
@@ -17,8 +18,8 @@ const cookieParser = require('cookie-parser')
 
 app.set('trust proxy', 1)
 app.use(cors({
-    origin:"https://luppi-react.herokuapp.com", 
-    //origin:"http://localhost:3000",
+    //origin:"https://luppi-react.herokuapp.com", 
+    origin:"http://localhost:3000",
     credentials: true}))
 app.use(connCheck)
 app.use(express.json())
@@ -32,6 +33,7 @@ app.use('/auth', imagekitAuth)
 app.use(authenticateUser)
 app.use('/logout', logoutRouter)
 app.use('/comment', CommentRouter)
+app.use('/users', UsersRouter)
 app.use('/like', LikeRouter)
 app.use('/posts', router)
 app.use('/friendrequest',  FriendRequestRouter)

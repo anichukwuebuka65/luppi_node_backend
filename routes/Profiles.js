@@ -7,6 +7,7 @@ const Shares = require('../models/SharesModel')
 const  User  = require('../models/UserModel')
 const { Profile } = require('../models/ProfileModel')
 const { fetchPost } = require('./Posts')
+const { Op } = require('sequelize')
 const router = express.Router()
 
 router.get('/', async(req, res) => {
@@ -14,19 +15,28 @@ router.get('/', async(req, res) => {
         const id = req.query.id
          const profile = await Profile.findOne({
              where: {
-                 userId: id
+                 userId: id,
              },
+             include: {
+                model: User,
+                attributes: ["firstName","lastName"]
+             }
          })
+         
          const friendsCount = await Friends.count({
              where: {
-                 userId: id
+                [Op.and]:{
+                    userId: id,
+                    status:"accepted"
+
+                }
              },
          })
          const userPosts = await fetchPost([id])
          const result = {
             profile,
-            friendsCount,
-            userPosts
+            friendsCount:friendsCount ?? 0,
+            userPosts:userPosts ?? []
          }
          res.status(200).json(result)
     } catch (error) {
