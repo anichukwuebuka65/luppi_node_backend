@@ -63,7 +63,7 @@ async function fetchIds(user, friends) {
 }
 
  const putIdsInArray = (result, user, ) => {
-    const ids = [user]
+    const ids = [user,1]
     result.map(data => ids.push(data.friendId))
     return ids
 }
