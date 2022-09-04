@@ -46,7 +46,7 @@ router.post('/', async(req, res) => {
 router.get('/', async(req, res) => {
     try {
         const ids = await fetchIds(req.body.userId, Friends)
-        const posts = await fetchPost(ids)
+        const posts = await fetchPost(ids, req.query.offset)
         console.log(req.cookies)
         res.status(200).json(posts)
     } 
@@ -68,13 +68,16 @@ async function fetchIds(user, friends) {
     return ids
 }
 
-async function fetchPost(ids) { 
+async function fetchPost(ids, offset) { 
     const posts = await Post.findAll({
         where: {
             userId: {
             [Op.in] : ids
-            }
+            },
         },
+        offset: offset,
+        limit:2,
+        order: [["updatedAt", "DESC"]],
         include: [{
             model: User,
             attributes: ['firstName','lastName']
