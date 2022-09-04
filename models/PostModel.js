@@ -15,10 +15,8 @@ const Post = conn.define('posts',{
         references: {
           model: 'users',
           key: 'id'
-        }
-        
-    },  
-    
+        }   
+    },   
 })
 
 Post.sync()
