@@ -5,20 +5,19 @@ const { Profile } = require('../models/ProfileModel')
 const User = require('../models/UserModel')
 
 router.post("/", async(req, res) => {
+    
     try {
-        let result = await Comment.create({
+       const result = await Comment.create({
             comments: req.body.comment,
             postId: req.body.postId,
             userId: req.body.userId
         })
-        result = result.toJSON()
-        res.status(200).json({
-            comments: result.comments,
-            id: result.id
-        })
+        res.status(200).json(result)
+        
     } 
     catch (error) {
-        res.status(500).json(error)
+        console.log(error)
+        res.status(500).send(error)
     }
 })
 
@@ -29,7 +28,8 @@ router.get("/", async(req, res) => {
                 postId: parseInt(req.query.postId)
             },
             limit: 5,
-             offset: parseInt(req.query.offset),
+            order:[["updatedAt", "DESC"]],
+            offset: parseInt(req.query.offset),
             include: {
                 model: User,
                 attributes:["id","firstName","lastName"],

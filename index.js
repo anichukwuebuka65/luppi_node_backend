@@ -19,8 +19,8 @@ const cookieParser = require('cookie-parser')
 
 app.set('trust proxy', 1)
 app.use(cors({
-    origin:"https://luppi-react.herokuapp.com", 
-    //origin:"http://localhost:3000",
+    //origin:"https://luppi-react.herokuapp.com", 
+    origin:"http://localhost:3000",
     credentials: true}))
 app.use(connCheck)
 app.use(express.json())
@@ -28,8 +28,6 @@ app.use(cookieParser())
 app.use(express.urlencoded({extended: false}))
 app.use('/register', registerRouter)
 app.use('/login', loginRouter)
-app.get("/",(req, res) => {
-    res.json('deployed successfully')})
 app.use('/auth', imagekitAuth)
 app.use(authenticateUser)
 app.use('/logout', logoutRouter)
@@ -41,7 +39,6 @@ app.use('/friends', friendsRouter)
 app.use('/friendrequest',  FriendRequestRouter)
 app.use('/profile', ProfileRouter)
   
-
 const PORT = process.env.PORT || 5000
 app.listen(PORT,()=>{
     console.log(`app running on port ${PORT}`)

@@ -58,11 +58,19 @@ Post.hasOne(Image);
 Post.hasMany(Comments);
 Post.hasOne(Likes);
 Post.hasOne(Shares);
-Image.belongsTo(Post)
-Comments.belongsTo(Post)
+Image.belongsTo(Post,{
+  onDelete:"CASCADE"
+})
+Comments.belongsTo(Post,{
+  onDelete:"CASCADE"
+})
 Comments.belongsTo(User)
-Likes.belongsTo(Post)
-Shares.belongsTo(Post)
+Likes.belongsTo(Post,{
+  onDelete:"CASCADE"
+})
+Shares.belongsTo(Post,{
+  onDelete:"CASCADE"
+})
  
 
 Image.addHook("afterFind", findResult => {

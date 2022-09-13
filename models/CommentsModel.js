@@ -26,6 +26,10 @@ const Comments = conn.define("comments",{
             key: 'id'
           }
     },
+    updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
+    }
 })
 
 Comments.sync()

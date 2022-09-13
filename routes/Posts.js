@@ -4,11 +4,23 @@ const Post = require('../models/PostModel')
 const Friends = require('../models/FriendsModel')
 const Image = require('../models/ImagesModel')
 const User = require('../models/UserModel')
-const { Op } = require('sequelize')
-const Comments = require('../models/CommentsModel')
+const { Op, Sequelize } = require('sequelize')
+const Comment = require('../models/CommentsModel')
 const Likes = require('../models/LikesModel')
 const Shares = require('../models/SharesModel')
 const { Profile } = require('../models/ProfileModel')
+
+router.get('/', async(req, res) => {
+    try {
+        const ids = await fetchIds(req.body.userId, Friends)
+        const posts = await fetchPost(ids,parseInt(req.query.offset))
+        res.status(200).json(posts)
+    } 
+     catch (error) {
+        console.log(error)
+        res.status(400).send(error.message)
+    }
+})
 
 router.post('/', async(req, res) => {
     try {
@@ -43,17 +55,31 @@ router.post('/', async(req, res) => {
     }
 })
 
-router.get('/', async(req, res) => {
+router.delete("/",async(req, res) => {
     try {
-        const ids = await fetchIds(req.body.userId, Friends)
-        const posts = await fetchPost(ids, req.query.offset)
-        console.log(req.cookies)
-        res.status(200).json(posts)
-    } 
-     catch (error) {
-        res.status(400).send(error.message)
+        const {userId} = await Post.findOne({
+            where:{
+                id:req.body.postId
+            },
+            attributes : ["userId"]
+            })
+        if (userId == req.body.userId) {
+            const result = Post.destroy({
+                    where: {
+                        [Op.and]:{
+                            id: req.body.postId
+                        }
+                    }
+                })   
+            res.status(200).end(result)  
+        }
+        else{
+            res.status(400).end("unauthorized")
+        }
+    } catch (error) {
+        res.status(500).end("pls try again")
     }
-})
+ })
 
 async function fetchIds(user, friends) {
     const result = await friends.findAll({ where: {userId: user},
@@ -75,27 +101,28 @@ async function fetchPost(ids, offset) {
             [Op.in] : ids
             },
         },
-        offset: offset,
-        limit:2,
-        order: [["updatedAt", "DESC"]],
+        attributes: {
+            include: [
+                [Sequelize.literal(`(
+                    SELECT COUNT(*) 
+                    FROM comments AS comment
+                    WHERE 
+                        comment.postId = posts.id
+                )`),"commentsCount"]
+            ],
+          },
+        offset: offset, 
+        limit:10,
         include: [{
             model: User,
-            attributes: ['firstName','lastName']
+            attributes: ['firstName','lastName'],
+            include:{
+                model: Profile,
+                attributes:['profilepicture']
+            } 
         }, {
             model: Image,
             attributes: ['imageUrl']
-        },{
-            model: Comments,
-            //attributes: [],
-            limit: 3,
-             include: {
-                 model: User,
-                 attributes:["id","firstName","lastName"],
-                include:{
-                    model: Profile,
-                    attributes: ['profilepicture']
-                }
-             }
         },{
             model: Likes,
             attributes: ['likes']
@@ -105,6 +132,7 @@ async function fetchPost(ids, offset) {
         }
         ]
     })
+   
     return posts
   }
 
