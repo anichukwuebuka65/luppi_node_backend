@@ -19,8 +19,8 @@ const cookieParser = require('cookie-parser')
 
 app.set('trust proxy', 1)
 app.use(cors({
-    //origin:"https://luppi-react.herokuapp.com", 
-    origin:"http://localhost:3000",
+    origin:"https://luppi-react.herokuapp.com", 
+    //origin:"http://localhost:3000",
     credentials: true}))
 app.use(connCheck)
 app.use(express.json())

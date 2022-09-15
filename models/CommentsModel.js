@@ -16,7 +16,8 @@ const Comments = conn.define("comments",{
         references: {
             model: 'posts',
             key: 'id'
-          }
+          },
+        onDelete:"CASCADE"
     },
     userId: {
         type: DataTypes.INTEGER,

@@ -56,22 +56,21 @@ router.post('/', async(req, res) => {
 })
 
 router.delete("/",async(req, res) => {
+    const postId = req.query.postId
     try {
         const {userId} = await Post.findOne({
             where:{
-                id:req.body.postId
+                id:postId
             },
             attributes : ["userId"]
             })
         if (userId == req.body.userId) {
             const result = Post.destroy({
                     where: {
-                        [Op.and]:{
-                            id: req.body.postId
-                        }
+                        id: postId
                     }
                 })   
-            res.status(200).end(result)  
+            res.status(200).json(result)  
         }
         else{
             res.status(400).end("unauthorized")

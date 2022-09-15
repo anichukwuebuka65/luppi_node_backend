@@ -23,19 +23,23 @@ router.get('/',async(req, res) => {
         const userId = req.body.userId
         const ids = await Friends.findAll({
                             where: {
-                                userId,
-                                status: 'pending'
+                                [Op.and]:{
+                                    userId,
+                                    status: 'pending'
+                                }
+                               
                         },
                         attributes: ['friendId'],
                     })
-        const result = await User.findAll({
-            where: {
-                id: {
-                  [Op.in] : putIdsInArray(ids)
-                }
-            },
-            attributes: ['id','firstname','lastname']
-        }) 
+                    const result = await User.findAll({
+                        where: {
+                            id: {
+                                [Op.in] : ids
+                            }
+                        },
+                        attributes: ['id','firstname','lastname']
+                    }) 
+                    console.log(result)
         res.json(result)            
     } catch (error) {
         res.json(error)
