@@ -44,5 +44,18 @@ router.get('/', async(req, res) => {
     }
  })
 
+ router.post("/", (req, res)=>{
+    console.log(req.body)
+        Profile.update({
+            profilepicture: req.body.url
+        },{
+            where:{
+                userId: req.body.userId
+            }
+        })
+        .then(()=> res.status(200).end("success"))
+        .catch((err) => res.status(500).end(err))
+ })
+
 
 module.exports = router
