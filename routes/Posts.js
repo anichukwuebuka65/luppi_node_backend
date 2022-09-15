@@ -111,7 +111,7 @@ async function fetchPost(ids, offset) {
             ],
           },
         offset: offset, 
-        limit:10,
+        limit:15,
         include: [{
             model: User,
             attributes: ['firstName','lastName'],
