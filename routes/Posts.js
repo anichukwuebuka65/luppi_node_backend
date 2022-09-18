@@ -119,16 +119,19 @@ async function fetchPost(ids, offset) {
                 model: Profile,
                 attributes:['profilepicture']
             } 
-        }, {
-            model: Image,
-            attributes: ['imageUrl']
-        },{
-            model: Likes,
-            attributes: ['likes']
-        },{
-            model: Shares,
-            attributes: ['shares']
-        }
+            }, {
+                model: Image,
+                attributes: ['imageUrl']
+            }, {
+                model: Comment,
+                attributes: ["postId"]
+            },{
+                model: Likes,
+                attributes: ['likes']
+            },{
+                model: Shares,
+                attributes: ['shares']
+            }
         ]
     })
    
