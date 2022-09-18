@@ -8,11 +8,11 @@ module.exports = {
         primaryKey: true,
         autoIncrement:true
       },
-      comments: {
+      comment: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      postId: {
+      postid: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
