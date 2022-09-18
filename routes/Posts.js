@@ -106,7 +106,7 @@ async function fetchPost(ids, offset) {
                     SELECT COUNT(*) 
                     FROM comments AS comment
                     WHERE 
-                        comment.postId = post.id
+                        comment.postId = post.Id
                 )`),"commentsCount"]
             ],
           },
