@@ -40,8 +40,8 @@ router.get("/", async(req, res) => {
             }
         })
         const comments = results.map((result) => {
-            const { id, comments, updatedAt, user} = result
-            return {id,comments,updatedAt,user: user.user_profile}
+            const { id, comment, updatedAt, user} = result
+            return {id,comment,updatedAt,user: user.user_profile}
         })
 
          res.status(200).json(comments)
