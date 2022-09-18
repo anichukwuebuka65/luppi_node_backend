@@ -6,7 +6,7 @@ const Comments = conn.define("comments",{
         primaryKey: true,
         autoIncrement: true
     },
-    comments: {
+    comment: {
         type: DataTypes.STRING,
         allowNull: false
     },

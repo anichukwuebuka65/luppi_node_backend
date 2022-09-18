@@ -106,7 +106,7 @@ async function fetchPost(ids, offset) {
                     SELECT COUNT(*) 
                     FROM comments AS comment
                     WHERE 
-                        comment.postId = post.Id
+                        comment.postId = post.id
                 )`),"commentsCount"]
             ],
           },
@@ -119,20 +119,16 @@ async function fetchPost(ids, offset) {
                 model: Profile,
                 attributes:['profilepicture']
             } 
-            }, {
-                model: Image,
-                attributes: ['imageUrl']
-            }, {
-                model: Comment,
-                attributes: ["postId"]
-            },{
-                model: Likes,
-                attributes: ['likes']
-            },{
-                model: Shares,
-                attributes: ['shares']
-            }
-        ]
+        }, {
+            model: Comment,
+            attributes: ["postId"]
+        },{
+            model: Likes,
+            attributes: ['likes']
+        },{
+            model: Shares,
+            attributes: ['shares']
+        }]
     })
    
     return posts
