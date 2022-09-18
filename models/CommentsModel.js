@@ -10,7 +10,7 @@ const Comments = conn.define("comments",{
         type: DataTypes.STRING,
         allowNull: false
     },
-    postid: {
+    postId: {
         type: DataTypes.INTEGER,
         allowNull: false, 
         references: {

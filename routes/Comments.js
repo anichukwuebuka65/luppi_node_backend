@@ -9,7 +9,7 @@ router.post("/", async(req, res) => {
     try {
        const result = await Comment.create({
             comment: req.body.comment,
-            postid: req.body.postId,
+            postId: req.body.postId,
             userId: req.body.userId
         })
         res.status(200).json(result)
@@ -25,7 +25,7 @@ router.get("/", async(req, res) => {
     try {
         const results = await Comment.findAll({
             where: {
-                postid: parseInt(req.query.postId)
+                postId: parseInt(req.query.postId)
             },
             limit: 5,
             order:[["updatedAt", "DESC"]],
