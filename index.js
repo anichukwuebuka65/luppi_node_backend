@@ -38,6 +38,9 @@ app.use('/posts', router)
 app.use('/friends', friendsRouter)
 app.use('/friendrequest',  FriendRequestRouter)
 app.use('/profile', ProfileRouter)
+app.get("*", (req, res)=>{
+    res.status(400).end("invalid route")
+})
   
 const PORT = process.env.PORT || 5000
 app.listen(PORT,()=>{
