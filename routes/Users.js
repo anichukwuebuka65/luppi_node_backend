@@ -7,11 +7,10 @@ const router = express.Router()
     try {
         const users = await User.findAll({
             limit: 5,
-            raw: true,
             attributes: ["id","firstName","lastName"],
             include: {
                 model: Profile,
-                attributes: ["profilepicture"]
+                attributes: ["id","profilepicture"]
             }
         })
 

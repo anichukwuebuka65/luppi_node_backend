@@ -100,16 +100,16 @@ async function fetchPost(ids, offset) {
             [Op.in] : ids
             },
         },
-        // attributes: {
-        //     include: [
-        //         [Sequelize.literal(`(
-        //             SELECT COUNT(*) 
-        //             FROM comments AS comment
-        //             WHERE 
-        //                 comment.postId = posts.id
-        //         )`),"commentsCount"]
-        //     ],
-        //   },
+        attributes: {
+            include: [
+                [Sequelize.literal(`(
+                    SELECT COUNT(*) 
+                    FROM comments AS comment
+                    WHERE 
+                        comment.postId = posts.id
+                )`),"commentsCount"]
+            ],
+          },
         offset: offset, 
         limit:15,
         include: [{
