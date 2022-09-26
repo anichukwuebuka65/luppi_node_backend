@@ -96,20 +96,14 @@ async function fetchIds(user, friends) {
 
 async function fetchPost(ids, offset) { 
     const posts = await Post.findAll({
+        subQuery: false,
         where: {
             userId: {
             [Op.in] : ids
             },
         },
         attributes: {
-            include: [
-                [Sequelize.literal(`(
-                    SELECT COUNT(*) 
-                    FROM comments AS comment
-                    WHERE 
-                        comment.postId = posts.id
-                )`),"commentsCount"]
-            ],
+            include: [[Sequelize.fn("COUNT",Sequelize.col("comments.id")),"commentsCount"]],
           },
         offset: offset, 
         limit:15,
@@ -132,7 +126,8 @@ async function fetchPost(ids, offset) {
         },{
             model: Shares,
             attributes: ['shares']
-        }]
+        }],
+        group: ["posts.id","user.id","user.user_profile.id","image.id","like.id","share.id"]
     })
    
     return posts
