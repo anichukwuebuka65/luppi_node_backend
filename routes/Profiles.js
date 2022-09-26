@@ -12,7 +12,7 @@ const router = express.Router()
 
 router.get('/', async(req, res) => {
     try {
-        const id = req.query.id
+        const id = parseInt(req.query.id)
          const profile = await Profile.findOne({
              where: {
                  userId: id,
@@ -40,6 +40,7 @@ router.get('/', async(req, res) => {
          }
          res.status(200).json(result)
     } catch (error) {
+        console.log(error)
         res.send(error.message)
     }
  })

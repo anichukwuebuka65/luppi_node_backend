@@ -51,6 +51,7 @@ router.post('/', async(req, res) => {
              shares:0
         })
     }catch(err){
+        console.log(err)
         res.send(`error:${err.message}`)
     }
 })
@@ -100,16 +101,16 @@ async function fetchPost(ids, offset) {
             [Op.in] : ids
             },
         },
-        // attributes: {
-        //     include: [
-        //         [Sequelize.literal(`(
-        //             SELECT COUNT(*) 
-        //             FROM comments AS comment
-        //             WHERE 
-        //                 comment.postId = posts.id
-        //         )`),"commentsCount"]
-        //     ],
-        //   },
+        attributes: {
+            include: [
+                [Sequelize.literal(`(
+                    SELECT COUNT(*) 
+                    FROM comments AS comment
+                    WHERE 
+                        comment.postId = posts.id
+                )`),"commentsCount"]
+            ],
+          },
         offset: offset, 
         limit:15,
         include: [{
@@ -122,6 +123,9 @@ async function fetchPost(ids, offset) {
         }, {
             model: Comment,
             attributes: []
+        }, {
+            model: Image,
+            attributes: ["imageUrl"]
         },{
             model: Likes,
             attributes: ['likes']

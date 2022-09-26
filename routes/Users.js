@@ -6,7 +6,7 @@ const router = express.Router()
  router.get("/", async (req, res) => {
     try {
         const users = await User.findAll({
-            limit: 5,
+            //limit: 5,
             attributes: ["id","firstName","lastName"],
             include: {
                 model: Profile,

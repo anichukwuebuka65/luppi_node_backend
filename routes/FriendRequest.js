@@ -22,24 +22,24 @@ router.get('/',async(req, res) => {
     try {
         const userId = req.body.userId
         const ids = await Friends.findAll({
+                            raw: true,
                             where: {
                                 [Op.and]:{
                                     userId,
-                                    status: 'pending'
-                                }
-                               
+                                    //status: 'pending'
+                                }    
                         },
                         attributes: ['friendId'],
                     })
-                    const result = await User.findAll({
-                        where: {
-                            id: {
-                                [Op.in] : ids
-                            }
-                        },
-                        attributes: ['id','firstname','lastname']
-                    }) 
-                    console.log(result)
+        const plainId = ids.map(id => id.friendId)
+        const result = await User.findAll({
+            where: {
+                id: {
+                    [Op.in] : plainId
+                }
+            },
+            attributes: ['id','firstName','lastName']
+        }) 
         res.json(result)            
     } catch (error) {
         res.json(error)
@@ -54,6 +54,7 @@ router.post('/',async(req, res) => {
         console.log(result)
         res.json(result)
     } catch (error) {
+        console.log(error)
         res.send("server error, try again")
     }
 })
