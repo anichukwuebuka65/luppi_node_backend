@@ -14,7 +14,7 @@ router.post('/', async(req, res) => {
     const validPwd = pwdRegex.test(req.body.pwd)
     const validEmail = emailRegex.test(req.body.email)
 
-    if(!validFirstname || !validLastname || !validPwd || !validEmail) return res.status(400).send('credentials cannot be accepted')
+    if(!validFirstname || !validLastname  || !validEmail) return res.status(400).send('credentials cannot be accepted')
 
         const createUser = async() => {
             const oldUser = await User.findOne({where:{email: req.body.email},attributes:['email']})
