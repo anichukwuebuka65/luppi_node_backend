@@ -20,7 +20,7 @@ const cookieParser = require("cookie-parser");
 app.set("trust proxy", 1);
 app.use(
   cors({
-    origin: "https://luppi.vercel.app",
+    origin: "https://luppi-5xopynisl-anichukwuebuka65.vercel.app/register",
     //origin:"http://localhost:3000",
     credentials: true,
   })
